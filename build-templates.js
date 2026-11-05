@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 
 const out = path.join(__dirname, 'templates');
@@ -146,6 +146,21 @@ const templates = [
     file: '27-buy-back-payment-successful.html', title: 'Buy-back payment successful', preheader: 'Your NeedHomes buy-back payment has been processed successfully.',
     hero: 'hero-buy-back.jpg', heroTitle: 'Buy-Back Payment<br>Successful', heroClass: 'orange-title',
     body: `<p>Dear {{FirstName}},</p><p>This is to confirm that your buy-back payment for <strong>{{PropertyName}}</strong> has been processed successfully.</p>${box('Approved Buy-Back Summary',row('Property Name:','{{PropertyName}}')+row('Agreed Buy-Back Price:','&#8358;{{AgreedPrice}}')+row('Processing Fee:','&#8358;{{ProcessingFee}}')+row('Net Amount Payable:','&#8358;{{NetAmount}}')+row('Payment Date:','{{PaymentDate}}')+row('Transaction Reference:','{{TransactionReference}}'))}<p class="muted">Please check your wallet for the payment. If the funds are not reflected within the expected settlement period, contact our support team with your transaction reference.</p><p class="muted">Thank you for investing with NeedHomes.</p>`
+  },
+  {
+    file: '28-password-reset.html', title: 'Password reset', preheader: 'Use this one-time password to reset your NeedHomes account password.',
+    hero: 'hero-confirmation.jpg', heroTitle: '', heroClass: 'dark',
+    body: `<p>Hello {{FirstName}},</p><p>We received a request to reset the password associated with your NeedHomes account.</p><p>Use the One-Time Password (OTP) below to verify your identity and proceed with resetting your password.</p><div class="otp">{{OTP_CODE}}</div><p class="center muted small">This code expires in {{ExpiryTime}}.</p><div class="panel"><h2>For your security:</h2>${list(['Do not share this code with anyone.','NeedHomes will never ask you to disclose your OTP.','If you did not request this password reset, please ignore this email. Your account remains unchanged.'])}</div><p>If you need assistance, contact us at <a href="mailto:{{SupportEmail}}">{{SupportEmail}}</a>.</p><p>Thank you for choosing NeedHomes.</p>`
+  },
+  {
+    file: '29-login-alert.html', title: 'Login alert', preheader: 'Review the details of a recent login to your NeedHomes account.',
+    hero: 'hero-confirmation.jpg', heroTitle: '', heroClass: 'dark',
+    body: `<p>Hello {{FirstName}},</p><p>Your NeedHomes account was successfully accessed.</p><p>Here are the details of your recent login:</p>${box('Login Information Details',row('Date:','{{LoginDate}}')+row('Time:','{{LoginTime}}')+row('Location:','{{City}}, {{Country}}')+row('Device Type:','{{DeviceType}}')+row('Browser:','{{BrowserName}}')+row('IP Address:','{{IPAddress}}'))}<p><strong>Was this you?</strong></p><p>If you recognise this activity, no further action is required.</p><p>If you do not recognise this login, we recommend that you secure your account immediately by changing your password.</p><p>Your account security is important to us.</p>`
+  },
+  {
+    file: '30-admin-invite.html', title: 'Admin invite', preheader: 'You have been invited to join the NeedHomes Admin Portal.',
+    hero: 'hero-confirmation.jpg', heroTitle: '', heroClass: 'dark',
+    body: `<p>Hello {{FirstName}},</p><p>You have been invited to join the <strong>NeedHomes Admin Portal</strong> as an administrator.</p><p>Through the admin portal, you will be able to access the management tools and features assigned to your role.</p>${box('Invitation Details',row('Name:','{{FullName}}')+row('Email:','{{AdminEmail}}')+row('Assigned Role:','{{AdminRole}}')+row('Invited By:','{{InviterName}}')+row('Invitation Date:','{{InvitationDate}}'))}<p>To accept this invitation and set up your account, click the button below:</p>${button('Accept Invitation','{{INVITATION_URL}}')}<p>Please note that this invitation will expire in {{ExpiryTime}}.</p><p>If you were not expecting this invitation, you can safely ignore this email.</p><p><strong class="orange">Welcome to the NeedHomes team!</strong></p>`
   }
 ];
 
@@ -165,6 +180,8 @@ html,body{margin:0!important;padding:0!important;width:100%!important;background
 </table></td></tr></table></body></html>`;
 }
 
-for (const t of templates) fs.writeFileSync(path.join(out, t.file), page(t));
+const buildTargets = process.argv.includes('--new-only') ? templates.slice(27) : templates;
+for (const t of buildTargets) fs.writeFileSync(path.join(out, t.file), page(t));
 fs.writeFileSync(path.join(__dirname, 'index.html'), `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>NeedHomes Email Templates</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap');body{font:16px Inter,Arial,sans-serif;background:#f4f6f8;color:#182130;max-width:900px;margin:40px auto;padding:0 20px}h1{color:#f56616}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}a{display:block;padding:20px;background:white;border:1px solid #dde3ea;border-radius:12px;color:#263b59;text-decoration:none}a:hover{border-color:#f56616}</style></head><body><h1>NeedHomes Email Templates</h1><p>Open a template below. Replace the <code>{{...}}</code> fields and URLs before sending.</p><div class="grid">${templates.map((t,i)=>`<a href="templates/${t.file}">${i+1}. ${t.title}</a>`).join('')}</div></body></html>`);
 console.log(`Built ${templates.length} templates in ${out}`);
+
