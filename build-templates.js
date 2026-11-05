@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const out = path.join(__dirname, 'templates');
@@ -149,17 +149,17 @@ const templates = [
   },
   {
     file: '28-password-reset.html', title: 'Password reset', preheader: 'Use this one-time password to reset your NeedHomes account password.',
-    hero: 'hero-confirmation.jpg', heroTitle: '', heroClass: 'dark',
+    hero: 'hero-password-reset.jpg', heroTitle: '', heroClass: 'dark',
     body: `<p>Hello {{FirstName}},</p><p>We received a request to reset the password associated with your NeedHomes account.</p><p>Use the One-Time Password (OTP) below to verify your identity and proceed with resetting your password.</p><div class="otp">{{OTP_CODE}}</div><p class="center muted small">This code expires in {{ExpiryTime}}.</p><div class="panel"><h2>For your security:</h2>${list(['Do not share this code with anyone.','NeedHomes will never ask you to disclose your OTP.','If you did not request this password reset, please ignore this email. Your account remains unchanged.'])}</div><p>If you need assistance, contact us at <a href="mailto:{{SupportEmail}}">{{SupportEmail}}</a>.</p><p>Thank you for choosing NeedHomes.</p>`
   },
   {
     file: '29-login-alert.html', title: 'Login alert', preheader: 'Review the details of a recent login to your NeedHomes account.',
-    hero: 'hero-confirmation.jpg', heroTitle: '', heroClass: 'dark',
+    hero: 'hero-login-alert.jpg', heroTitle: '', heroClass: 'dark',
     body: `<p>Hello {{FirstName}},</p><p>Your NeedHomes account was successfully accessed.</p><p>Here are the details of your recent login:</p>${box('Login Information Details',row('Date:','{{LoginDate}}')+row('Time:','{{LoginTime}}')+row('Location:','{{City}}, {{Country}}')+row('Device Type:','{{DeviceType}}')+row('Browser:','{{BrowserName}}')+row('IP Address:','{{IPAddress}}'))}<p><strong>Was this you?</strong></p><p>If you recognise this activity, no further action is required.</p><p>If you do not recognise this login, we recommend that you secure your account immediately by changing your password.</p><p>Your account security is important to us.</p>`
   },
   {
     file: '30-admin-invite.html', title: 'Admin invite', preheader: 'You have been invited to join the NeedHomes Admin Portal.',
-    hero: 'hero-confirmation.jpg', heroTitle: '', heroClass: 'dark',
+    hero: 'hero-admin-invite.jpg', heroTitle: '', heroClass: 'dark',
     body: `<p>Hello {{FirstName}},</p><p>You have been invited to join the <strong>NeedHomes Admin Portal</strong> as an administrator.</p><p>Through the admin portal, you will be able to access the management tools and features assigned to your role.</p>${box('Invitation Details',row('Name:','{{FullName}}')+row('Email:','{{AdminEmail}}')+row('Assigned Role:','{{AdminRole}}')+row('Invited By:','{{InviterName}}')+row('Invitation Date:','{{InvitationDate}}'))}<p>To accept this invitation and set up your account, click the button below:</p>${button('Accept Invitation','{{INVITATION_URL}}')}<p>Please note that this invitation will expire in {{ExpiryTime}}.</p><p>If you were not expecting this invitation, you can safely ignore this email.</p><p><strong class="orange">Welcome to the NeedHomes team!</strong></p>`
   }
 ];
